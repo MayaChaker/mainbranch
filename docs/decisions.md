@@ -90,3 +90,9 @@ Date: 2026-09-25
 Decision: run `create-next-app` directly inside `d:\2026\MainBranch` instead of creating a nested `mainbranch/` subfolder.
 Why: the GitHub repo is meant to map 1:1 to this folder; a nested subfolder would just duplicate the name for no benefit.
 Rejected: `npx create-next-app@latest mainbranch` (creates `MainBranch\mainbranch\...`).
+
+## 017 — MobileMenu is a client island inside the server Navbar
+Date: 2026-09-27
+Decision: below `md` the Navbar hides its links and auth buttons and renders `<MobileMenu />`, a small `"use client"` component that toggles the same links with `useState`. It closes when any link inside it is clicked.
+Why: the open/closed state needs the browser, but the rest of the Navbar does not; keeping only the toggle on the client keeps the Navbar a Server Component (see §9 of the plan). Adds MobileMenu to the list of client components.
+Rejected: making the whole Navbar `"use client"`; a CSS-only toggle (harder to make accessible and to close on navigation).
