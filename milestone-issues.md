@@ -2,7 +2,7 @@
 
 Copy each block into a new GitHub issue: the first line is the title, the rest is the body. Label them all `milestone`. Close each one from its Pull Request by writing `Closes #<number>` in the PR description.
 
-Definition of Done for every issue: validated on the server · protected where needed · loading / empty / error states · works on mobile · Vercel preview checked · I can explain every line.
+Definition of Done for every issue: validated on the server · protected where needed · tests written and passing · loading / empty / error states · works on mobile · Vercel preview checked · I can explain every line.
 
 ---
 
@@ -40,6 +40,12 @@ Definition of Done for every issue: validated on the server · protected where n
 - [ ] Username generated on first sign-in
 - [ ] `proxy.ts` redirects for protected pages
 - [ ] OAuth callback URLs for localhost and production
+- [ ] Vitest and Playwright setup with temporary test databases (decision 020)
+- [ ] GitHub Actions on every PR: lint, types, unit, integration, E2E, build; required on `main`
+- [ ] Unit: username generation (format, length, duplicates, missing name)
+- [ ] Integration: first sign-in creates a username, a taken name gets a suffix
+- [ ] E2E: protected pages redirect to `/signin` and return to `callbackUrl`; external `callbackUrl` is refused
+- [ ] Manual: real GitHub and Google sign-in, same email on both providers
 
 ---
 
@@ -48,6 +54,9 @@ Definition of Done for every issue: validated on the server · protected where n
 - [ ] `/communities/[slug]` details (ISR) + not-found
 - [ ] Membership API: GET / POST / DELETE `/api/communities/[id]/membership`
 - [ ] JoinLeaveButton (client island)
+- [ ] Integration: membership 401 / 404 / 201 / 200 when already joined / 204
+- [ ] Component: JoinLeaveButton states, including a failed request
+- [ ] E2E: search, join and leave a community
 
 ---
 
@@ -57,6 +66,12 @@ Definition of Done for every issue: validated on the server · protected where n
 - [ ] `/create` and `/blogs/[slug]/edit` with one BlogForm
 - [ ] `/blogs/[slug]` (ISR) with Markdown rendering, revalidate on change
 - [ ] Cascade delete in a transaction
+- [ ] Unit: Zod post schema, slug, reading time
+- [ ] Integration: every status of POST / PATCH / DELETE, including non-member and non-owner 403
+- [ ] Integration: an author id in the body is ignored; cascade delete rolls back on failure
+- [ ] Security: raw HTML and `javascript:` links in Markdown do not execute
+- [ ] Component: BlogForm errors
+- [ ] E2E: create, edit and delete a post; the cached page updates
 
 ---
 
@@ -65,6 +80,9 @@ Definition of Done for every issue: validated on the server · protected where n
 - [ ] Filters stored in the URL
 - [ ] `GET /api/posts` with query validation
 - [ ] Empty state for zero results
+- [ ] Unit: query validation
+- [ ] Integration: search, each filter, combined filters, pagination limits
+- [ ] E2E: filters survive refresh and the back button
 
 ---
 
@@ -72,6 +90,9 @@ Definition of Done for every issue: validated on the server · protected where n
 - [ ] Comment API + CommentForm + delete own comment
 - [ ] Bookmark API + BookmarkButton (idempotent)
 - [ ] `/bookmarks` page with pagination and empty state
+- [ ] Integration: comment and bookmark statuses, ownership, double bookmark returns 200
+- [ ] Component: CommentForm and BookmarkButton
+- [ ] E2E: comment, bookmark, find it in `/bookmarks`
 
 ---
 
@@ -79,6 +100,9 @@ Definition of Done for every issue: validated on the server · protected where n
 - [ ] `/profile/[username]` (ISR)
 - [ ] `/settings` + `PATCH /api/users/me` (409 on taken username)
 - [ ] `/dashboard` from the wireframe
+- [ ] Integration: `PATCH /api/users/me` 400 / 401 / 409; cannot update another user
+- [ ] Component: ProfileForm errors
+- [ ] E2E: change username, new profile URL works
 
 ---
 
@@ -87,6 +111,9 @@ Definition of Done for every issue: validated on the server · protected where n
 - [ ] Empty states on every list
 - [ ] Mobile pass on every page
 - [ ] Keyboard focus and contrast check
+- [ ] axe on every page, plus a manual keyboard check
+- [ ] E2E on desktop and mobile, Chromium, Firefox and WebKit
+- [ ] E2E: empty, error and not-found states
 
 ---
 
@@ -95,3 +122,6 @@ Definition of Done for every issue: validated on the server · protected where n
 - [ ] Production OAuth callbacks tested
 - [ ] Submission checklist from the brief
 - [ ] Technical defense practice
+- [ ] Lighthouse on `/`, `/blogs` and a post
+- [ ] Smoke test on production after deploy (read only)
+- [ ] Full authorization matrix checked against the API contract
