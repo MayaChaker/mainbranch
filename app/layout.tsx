@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
-import { Newsreader, Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-const newsreader = Newsreader({
+const newsreader = localFont({
   variable: "--font-newsreader",
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
+  src: [
+    { path: "./fonts/newsreader.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/newsreader-italic.woff2", weight: "400", style: "italic" },
+  ],
 });
 
-const inter = Inter({
+const inter = localFont({
   variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  src: "./fonts/inter.woff2",
+  weight: "400 500",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = localFont({
   variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400"],
+  src: "./fonts/jetbrains-mono.woff2",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
