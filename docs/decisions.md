@@ -135,3 +135,10 @@ Decision: automated tests move from bonus (after the MVP) into the plan, written
 Why: the rules that matter most (401/403, ownership, idempotent join, cascade delete) are enforced on the server, so each one should have a test that proves it. A replica set is required because the cascade delete uses a transaction. Tests lower the risk of bugs; they cannot prove that there are none.
 Rejected: all tests at the end (bugs are found late); a 100% coverage target (measures lines run, not rules checked); load tests (the free Atlas and Vercel tiers would limit the result); visual regression (the design is still changing); automating real provider sign-in (unreliable, and needs real accounts).
 Replaces: the "tests for critical business rules" bonus item in the plan.
+
+## 021 — Fonts are stored in the repository
+
+Date: 2026-11-25
+Decision: Newsreader (normal and italic), Inter and JetBrains Mono are loaded with `next/font/local` from `app/fonts/` (latin files only), with their OFL licenses. The CSS variable names do not change.
+Why: with `next/font/google`, the dev server downloaded the fonts and returned 500 when the network dropped. Local files make development, builds and CI independent of Google.
+Rejected: restarting the dev server each time (not reliable); a `<link>` to Google Fonts (extra request from every visitor, worse for privacy); system fonts (changes the approved design).
