@@ -1,11 +1,6 @@
 import type { Topic } from "@/constants/topics";
+import type { SeedCommunity } from "@/lib/seed-communities";
 
-type SeedCommunity = {
-  name: string;
-  slug: string;
-  description: string;
-  topics: Topic[];
-};
 type SeedPost = {
   title: string;
   slug: string;

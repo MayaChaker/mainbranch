@@ -142,3 +142,10 @@ Date: 2026-11-25
 Decision: Newsreader (normal and italic), Inter and JetBrains Mono are loaded with `next/font/local` from `app/fonts/` (latin files only), with their OFL licenses. The CSS variable names do not change.
 Why: with `next/font/google`, the dev server downloaded the fonts and returned 500 when the network dropped. Local files make development, builds and CI independent of Google.
 Rejected: restarting the dev server each time (not reliable); a `<link>` to Google Fonts (extra request from every visitor, worse for privacy); system fonts (changes the approved design).
+
+## 022 — Production gets the communities only
+
+Date: 2026-11-27
+Decision: a separate script, `npm run seed:communities`, upserts the community list by slug and may run against production. The full `npm run seed` (demo user and sample posts) still refuses the `mainbranch` database. Both scripts share one tested function, `seedCommunities`.
+Why: the live site needs communities before Milestone 4, but nothing fake: every post on production must have a real author. Upserting by slug means the script can be run again (for example after a network drop) without creating duplicates, and it never deletes communities that already exist.
+Rejected: running the full seed on production (fake user and posts on the live site); an admin page to create communities (not in the brief); inserting the communities by hand in Atlas (not repeatable, no review).
