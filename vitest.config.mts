@@ -5,8 +5,9 @@ export default defineConfig({
   resolve: {
     alias: { "@": fileURLToPath(new URL(".", import.meta.url)) },
   },
+  esbuild: { jsx: "automatic" },
   test: {
     environment: "node",
-    include: ["{lib,schemas,app}/**/*.test.ts"],
+    include: ["{lib,schemas,app}/**/*.test.ts", "components/**/*.test.tsx"],
   },
 });
