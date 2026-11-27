@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { connectDB } from "@/lib/db";
 import { User } from "@/models/User";
-import { Community } from "@/models/Community";
+import { seedCommunities } from "@/lib/seed-communities";
 import { Membership } from "@/models/Membership";
 import { Post } from "@/models/Post";
 import { COMMUNITIES, DEMO_USER, POSTS } from "./seed-data";
@@ -27,16 +27,7 @@ async function seed() {
   if (!user) {
     throw new Error("Demo user was not saved.");
   }
-  const communityIds = new Map<string, mongoose.Types.ObjectId>();
-  for (const community of COMMUNITIES) {
-    const doc = await Community.findOneAndUpdate(
-      { slug: community.slug },
-      { $set: community },
-      UPSERT,
-    );
-    if (!doc) throw new Error(`Community ${community.slug} was not saved.`);
-    communityIds.set(community.slug, doc._id);
-  }
+  const communityIds = await seedCommunities(COMMUNITIES);
   for (const { communitySlug, ...post } of POSTS) {
     const communityId = communityIds.get(communitySlug);
     if (!communityId) {

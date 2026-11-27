@@ -1,42 +1,76 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #11140F;
-  --surface: #191D17;
-  --border: #2B3127;
-  --text: #F6F7F2;
-  --text-muted: #AEB5A8;
-  --accent: #66734B;
-  --accent-hover: #354A2F;
-  --accent-text: #A3B68A;
+  --bg: #F5F0E6;
+  --surface: #FBF8F1;
+  --surface-strong: #E6DFCF;
+  --border: #E2D9C6;
+  --text: #1C211D;
+  --text-muted: #5B5F57;
+  --accent: #1E3A2B;
+  --accent-hover: #2C5240;
+  --accent-text: #1E3A2B;
+  --on-accent: #F5F0E6;
+  --brass: #9C7A3C;
+  --brass-text: #7A5E2C;
   --error-bg: #B5524A;
-  --error-text: #E08A80;
-  --success-text: #B9CC9C;
+  --error-text: #9B3B33;
+  --success-text: #3F6B48;
+  --success-bg: #E4ECDD;
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
   --color-border: var(--border);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+  --color-brass: var(--brass);
+  --color-brass-text: var(--brass-text);
   --color-error-bg: var(--error-bg);
   --color-error-text: var(--error-text);
   --color-success-text: var(--success-text);
+  --color-success-bg: var(--success-bg);
 
-  --font-display: var(--font-newsreader);
+  --font-display: var(--font-fraunces);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
 
-  --radius-control: 4px;
-  --radius-container: 6px;
+  --radius-control: 10px;
+  --radius-container: 18px;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans), sans-serif;
+}
+
+@keyframes mb-blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+@keyframes mb-breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+@keyframes mb-steam { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: 0.6; } 100% { opacity: 0; transform: translateY(-16px); } }
+@keyframes mb-glow { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+@keyframes mb-type { 0% { width: 0; } 60%, 100% { width: var(--w); } }
+@keyframes mb-fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+@utility anim-blink { transform-box: fill-box; transform-origin: center; animation: mb-blink 5s infinite; }
+@utility anim-breathe { animation: mb-breathe 3s ease-in-out infinite; }
+@utility anim-steam { animation: mb-steam 2.8s ease-in-out infinite; }
+@utility anim-glow { animation: mb-glow 3s ease-in-out infinite; }
+@utility anim-type { animation: mb-type 3.4s steps(12) infinite; }
+@utility anim-fade-up { animation: mb-fade-up 0.7s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

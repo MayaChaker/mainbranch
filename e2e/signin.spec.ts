@@ -4,7 +4,7 @@ test("sign-in page shows both providers", async ({ page }, testInfo) => {
   await page.goto("/signin");
 
   await expect(
-    page.getByRole("heading", { level: 1, name: "Pick up where you branched off." }),
+    page.getByRole("heading", { level: 1, name: "Your seat is waiting." }),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Continue with GitHub" }),

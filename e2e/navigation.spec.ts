@@ -13,6 +13,6 @@ test("mobile menu opens and closes after a link click", async ({
   await page.getByRole("button", { name: "Menu" }).click();
   await expect(signIn).toBeVisible();
 
-  await page.getByRole("link", { name: "Explore" }).click();
+  await page.getByRole("link", { name: "Explore", exact: true }).click();
   await expect(signIn).toBeHidden();
 });

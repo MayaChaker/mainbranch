@@ -28,9 +28,9 @@ export function AuthStatus() {
       </Link>
       <Link
         href="/signin"
-        className="rounded-control border-[0.5px] border-accent px-4 py-2 text-sm text-accent-text hover:bg-surface"
+        className="rounded-control bg-accent px-4 py-2.5 text-sm font-medium text-on-accent transition-colors hover:bg-accent-hover"
       >
-        Join
+        Join free
       </Link>
     </>
   );

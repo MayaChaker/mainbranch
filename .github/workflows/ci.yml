@@ -36,8 +36,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - name: Create a throwaway AUTH_SECRET for this run
-        run: echo "AUTH_SECRET=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
       - run: npx playwright test
       - uses: actions/upload-artifact@v7
         if: failure()
