@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Post } from "@/models/Post";
 import { User } from "@/models/User";
 import { Community } from "@/models/Community";
@@ -12,8 +13,16 @@ export type PostPreview = {
   community: { name: string; slug: string };
 };
 
-export async function listLatestPosts(limit: number): Promise<PostPreview[]> {
+export async function listLatestPosts(
+  limit: number,
+  { communityId }: { communityId?: string } = {},
+): Promise<PostPreview[]> {
+  const match = communityId
+    ? { communityId: new Types.ObjectId(communityId) }
+    : {};
+
   return Post.aggregate<PostPreview>([
+    { $match: match },
     { $sort: { createdAt: -1, _id: -1 } },
     { $limit: limit },
     {

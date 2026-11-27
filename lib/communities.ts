@@ -1,6 +1,7 @@
-import type { PipelineStage } from "mongoose";
+import { Types, type PipelineStage } from "mongoose";
 import { Community } from "@/models/Community";
 import { Membership } from "@/models/Membership";
+import { User } from "@/models/User";
 import { escapeRegex } from "@/lib/escape-regex";
 import type { CommunitiesQuery } from "@/schemas/communities";
 
@@ -89,4 +90,45 @@ export async function listCommunities({
     totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)),
     total,
   };
+}
+
+export type MemberPreview = { id: string; name: string };
+
+export async function getCommunityBySlug(
+  slug: string,
+): Promise<CommunityListItem | null> {
+  const [community] = await Community.aggregate<CommunityListItem>([
+    { $match: { slug: slug.toLowerCase() } },
+    { $limit: 1 },
+    ...withMemberCount(),
+  ]);
+  return community ?? null;
+}
+
+export async function listRecentMembers(
+  communityId: string,
+  limit: number,
+): Promise<MemberPreview[]> {
+  return Membership.aggregate<MemberPreview>([
+    { $match: { communityId: new Types.ObjectId(communityId) } },
+    { $sort: { joinedAt: -1, _id: -1 } },
+    { $limit: limit },
+    {
+      $lookup: {
+        from: User.collection.name,
+        localField: "userId",
+        foreignField: "_id",
+        pipeline: [{ $project: { _id: 0, name: 1, username: 1 } }],
+        as: "user",
+      },
+    },
+    { $unwind: "$user" },
+    {
+      $project: {
+        _id: 0,
+        id: { $toString: "$userId" },
+        name: { $ifNull: ["$user.name", "$user.username"] },
+      },
+    },
+  ]);
 }
