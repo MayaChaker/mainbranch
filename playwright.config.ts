@@ -12,9 +12,8 @@ export default defineConfig({
     { name: "mobile", use: { ...devices["Pixel 7"] } },
   ],
   webServer: {
-    command: "npm run build && npm run start -- -p 3100",
+    command: "npm run build && npx tsx e2e/server.ts",
     url: baseURL,
-    timeout: 180_000,
-    env: { AUTH_TRUST_HOST: "true" },
+    timeout: 300_000,
   },
 });
