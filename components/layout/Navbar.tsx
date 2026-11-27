@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { NavLink } from "./NavLink";
 import { MobileMenu } from "./MobileMenu";
+import { AuthStatus } from "./AuthStatus";
 
 export function Navbar() {
   return (
@@ -15,18 +16,7 @@ export function Navbar() {
           <NavLink href="/blogs">Blogs</NavLink>
         </div>
         <div className="hidden items-center gap-4 md:flex">
-          <Link
-            href="/signin"
-            className="text-sm text-text-muted hover:text-text"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/signin"
-            className="rounded-control border-[0.5px] border-accent px-4 py-2 text-sm text-accent-text hover:bg-surface"
-          >
-            Join
-          </Link>
+          <AuthStatus />
         </div>
         <MobileMenu />
       </nav>

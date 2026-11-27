@@ -1,15 +1,20 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 import { NavLink } from "./NavLink";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
+  const username = session?.user?.username;
+
   return (
     <div className="md:hidden">
       <button
         onClick={() => setOpen(!open)}
         aria-label="Menu"
+        aria-expanded={open}
         className="text-text"
       >
         ☰
@@ -23,18 +28,40 @@ export function MobileMenu() {
           <NavLink href="/">Explore</NavLink>
           <NavLink href="/communities">Communities</NavLink>
           <NavLink href="/blogs">Blogs</NavLink>
-          <Link
-            href="/signin"
-            className="text-sm text-text-muted hover:text-text"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/signin"
-            className="rounded-control border-[0.5px] border-accent px-4 py-2 text-center text-sm text-accent-text hover:bg-surface"
-          >
-            Join
-          </Link>
+
+          {session?.user ? (
+            <>
+              <hr className="border-border" />
+              <NavLink href="/dashboard">Dashboard</NavLink>
+              {username && (
+                <NavLink href={`/profile/${username}`}>Profile</NavLink>
+              )}
+              <NavLink href="/bookmarks">Bookmarks</NavLink>
+              <NavLink href="/settings">Settings</NavLink>
+              <button
+                type="button"
+                onClick={() => signOut({ redirectTo: "/" })}
+                className="text-left text-sm text-text-muted hover:text-text"
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/signin"
+                className="text-sm text-text-muted hover:text-text"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/signin"
+                className="rounded-control border-[0.5px] border-accent px-4 py-2 text-center text-sm text-accent-text hover:bg-surface"
+              >
+                Join
+              </Link>
+            </>
+          )}
         </div>
       )}
     </div>
