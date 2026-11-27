@@ -22,24 +22,8 @@ export type CommunityList = {
   total: number;
 };
 
-function searchFilter(search?: string) {
-  if (!search) return {};
-  const pattern = new RegExp(escapeRegex(search), "i");
-  return { $or: [{ name: pattern }, { description: pattern }] };
-}
-
-export async function listCommunities({
-  search,
-  page,
-}: Partial<Pick<CommunitiesQuery, "search">> &
-  Pick<CommunitiesQuery, "page">): Promise<CommunityList> {
-  const filter = searchFilter(search);
-
-  const pipeline: PipelineStage[] = [
-    { $match: filter },
-    { $sort: { name: 1, _id: 1 } },
-    { $skip: (page - 1) * PAGE_SIZE },
-    { $limit: PAGE_SIZE },
+function withMemberCount(): PipelineStage[] {
+  return [
     {
       $lookup: {
         from: Membership.collection.name,
@@ -60,6 +44,38 @@ export async function listCommunities({
         memberCount: { $ifNull: [{ $first: "$members.count" }, 0] },
       },
     },
+  ];
+}
+
+export async function listPopularCommunities(
+  limit: number,
+): Promise<CommunityListItem[]> {
+  return Community.aggregate<CommunityListItem>([
+    ...withMemberCount(),
+    { $sort: { memberCount: -1, name: 1 } },
+    { $limit: limit },
+  ]);
+}
+
+function searchFilter(search?: string) {
+  if (!search) return {};
+  const pattern = new RegExp(escapeRegex(search), "i");
+  return { $or: [{ name: pattern }, { description: pattern }] };
+}
+
+export async function listCommunities({
+  search,
+  page,
+}: Partial<Pick<CommunitiesQuery, "search">> &
+  Pick<CommunitiesQuery, "page">): Promise<CommunityList> {
+  const filter = searchFilter(search);
+
+  const pipeline: PipelineStage[] = [
+    { $match: filter },
+    { $sort: { name: 1, _id: 1 } },
+    { $skip: (page - 1) * PAGE_SIZE },
+    { $limit: PAGE_SIZE },
+    ...withMemberCount(),
   ];
 
   const [items, total] = await Promise.all([

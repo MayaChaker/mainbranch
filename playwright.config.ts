@@ -15,5 +15,6 @@ export default defineConfig({
     command: "npm run build && npm run start -- -p 3100",
     url: baseURL,
     timeout: 180_000,
+    env: { AUTH_TRUST_HOST: "true" },
   },
 });
