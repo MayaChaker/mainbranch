@@ -6,6 +6,7 @@ import { getCommunityBySlug, listRecentMembers } from "@/lib/communities";
 import { listLatestPosts } from "@/lib/posts";
 import { PostPreviewCard } from "@/components/posts/PostPreviewCard";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { JoinLeaveButton } from "@/components/communities/JoinLeaveButton";
 
 export const revalidate = 300;
 
@@ -51,9 +52,6 @@ export default async function CommunityPage({
     listRecentMembers(community.id, 5),
     listLatestPosts(10, { communityId: community.id }),
   ]);
-  const memberLabel = `${community.memberCount.toLocaleString("en-US")} ${
-    community.memberCount === 1 ? "member" : "members"
-  }`;
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 md:px-16 md:py-14">
@@ -93,10 +91,12 @@ export default async function CommunityPage({
               ))}
             </div>
           )}
-          <p className="text-sm text-text-muted">
-            <strong className="font-semibold text-text">{memberLabel}</strong>
-            {members[0] && <> · {members[0].name} joined most recently</>}
-          </p>
+          <JoinLeaveButton
+            communityId={community.id}
+            communityName={community.name}
+            slug={community.slug}
+            memberCount={community.memberCount}
+          />
         </div>
       </header>
 

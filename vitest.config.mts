@@ -7,6 +7,6 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["{lib,schemas}/**/*.test.ts"],
+    include: ["{lib,schemas,app}/**/*.test.ts"],
   },
 });
