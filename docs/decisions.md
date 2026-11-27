@@ -149,3 +149,11 @@ Date: 2026-11-27
 Decision: a separate script, `npm run seed:communities`, upserts the community list by slug and may run against production. The full `npm run seed` (demo user and sample posts) still refuses the `mainbranch` database. Both scripts share one tested function, `seedCommunities`.
 Why: the live site needs communities before Milestone 4, but nothing fake: every post on production must have a real author. Upserting by slug means the script can be run again (for example after a network drop) without creating duplicates, and it never deletes communities that already exist.
 Rejected: running the full seed on production (fake user and posts on the live site); an admin page to create communities (not in the brief); inserting the communities by hand in Atlas (not repeatable, no review).
+
+## 023 — Light "ivory and forest green" design direction
+
+Date: 2026-11-27
+Decision: the app moves from the dark olive theme to a light theme: ivory background (#F5F0E6), forest green for text accents and primary actions (#1E3A2B), brass for small highlights (#9C7A3C, darker #7A5E2C for text so it passes 4.5:1), Fraunces for display text (local file, OFL), Inter for UI, JetBrains Mono for small labels. Radius 10px for controls and 18px for containers. Pages use cards with soft hover lift, a small developer illustration (inline SVG, `aria-hidden`) and short CSS animations; every animation stops when the system asks for reduced motion.
+Why: the dark direction was rejected in review several times. Thirteen mockups were compared on a design canvas, and this one ("F3 — realistic and inviting") was chosen because it feels organised and welcoming and shows what happens inside a community. The colors are semantic tokens, so the switch changed the values in `globals.css` and almost no component code.
+Rejected: the dark olive theme (felt cold and generic); bold multi-colored cards (looked like a template); black and gold "luxury" styles (too formal for a community); fake activity and member numbers on the live site: the design shows them only where real data exists (member counts now, latest posts after Milestone 5).
+Replaces: the dark palette and Newsreader font in planning 3.6.5.

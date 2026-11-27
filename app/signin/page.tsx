@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { DeveloperScene } from "@/components/illustrations/DeveloperScene";
 import { SignInPanel } from "./SignInPanel";
 
 export const metadata: Metadata = {
@@ -10,53 +11,33 @@ export const metadata: Metadata = {
 function SignInPanelFallback() {
   return (
     <div className="flex flex-col gap-3">
-      <Skeleton className="h-4 w-28" />
-      <Skeleton className="h-[73px]" />
-      <Skeleton className="h-[73px]" />
+      <Skeleton className="h-[52px]" />
+      <Skeleton className="h-[52px]" />
     </div>
-  );
-}
-
-function BranchGraph() {
-  return (
-    <pre
-      aria-hidden="true"
-      className="font-mono text-sm leading-7 text-text-muted"
-    >
-      <span className="text-text">*</span> main{"\n"}
-      |\{"\n"}
-      | <span className="text-accent-text">* you, signing in</span>
-      {"\n"}
-      |/{"\n"}
-      <span className="text-text">*</span> communities · posts · reading list
-    </pre>
   );
 }
 
 export default function SignInPage() {
   return (
-    <section className="mx-auto grid max-w-5xl gap-14 px-6 py-14 md:grid-cols-[1.15fr_1fr] md:items-center md:gap-0 md:py-24">
-      <div className="md:pr-16">
-        <p className="font-mono text-xs uppercase tracking-widest text-accent-text">
-          Vol. 01 · Sign in
-        </p>
-        <h1 className="mt-5 font-display text-5xl leading-[1.05] text-text md:text-6xl">
-          Pick up where you{" "}
-          <em className="text-accent-text">branched</em> off.
+    <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-12 md:px-16 md:py-16 lg:grid-cols-[minmax(0,1fr)_480px]">
+      <section className="flex max-w-[460px] flex-col gap-5">
+        <p className="font-mono text-xs text-brass-text">~/signin</p>
+        <h1 className="font-display text-[40px] leading-[1.05] tracking-[-0.02em] text-accent-text md:text-[52px]">
+          Your seat is <em className="text-brass-text">waiting.</em>
         </h1>
-        <p className="mt-6 max-w-md text-text-muted">
+        <p className="leading-relaxed text-text-muted">
           Sign in to join communities, publish posts and keep a reading list.
         </p>
-        <div className="mt-10 hidden border-t border-border pt-6 md:block">
-          <BranchGraph />
+        <div className="mt-2">
+          <Suspense fallback={<SignInPanelFallback />}>
+            <SignInPanel />
+          </Suspense>
         </div>
-      </div>
-
-      <div className="md:border-l md:border-border md:py-6 md:pl-16">
-        <Suspense fallback={<SignInPanelFallback />}>
-          <SignInPanel />
-        </Suspense>
-      </div>
-    </section>
+        <p className="text-xs leading-relaxed text-text-muted">
+          We only receive your name, email and profile picture.
+        </p>
+      </section>
+      <DeveloperScene className="hidden lg:block" />
+    </div>
   );
 }

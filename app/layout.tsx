@@ -5,18 +5,18 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Providers } from "./providers";
 
-const newsreader = localFont({
-  variable: "--font-newsreader",
+const fraunces = localFont({
+  variable: "--font-fraunces",
   src: [
-    { path: "./fonts/newsreader.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/newsreader-italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/fraunces.woff2", weight: "400 500", style: "normal" },
+    { path: "./fonts/fraunces-italic.woff2", weight: "400 500", style: "italic" },
   ],
 });
 
 const inter = localFont({
   variable: "--font-inter",
   src: "./fonts/inter.woff2",
-  weight: "400 500",
+  weight: "400 600",
 });
 
 const jetbrainsMono = localFont({
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Providers>

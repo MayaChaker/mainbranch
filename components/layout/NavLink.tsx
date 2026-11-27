@@ -14,8 +14,11 @@ export function NavLink({ href, children }: NavLinkProps) {
   return (
     <Link
       href={href}
-      className={`text-sm transition-colors ${
-        isActive ? "text-accent-text" : "text-text-muted hover:text-text"
+      aria-current={isActive ? "page" : undefined}
+      className={`border-b-2 pb-1 text-sm transition-colors ${
+        isActive
+          ? "border-brass font-medium text-text"
+          : "border-transparent text-text-muted hover:text-text"
       }`}
     >
       {children}
